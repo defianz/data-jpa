@@ -19,7 +19,7 @@ import java.util.Optional;
 
 
 @NamedEntityGraph(name = "Member.all",attributeNodes = @NamedAttributeNode("team"))
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
     List<Member> findByUsernameAndAgeGreaterThan(String username,int age);
 
