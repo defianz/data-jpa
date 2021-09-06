@@ -19,9 +19,9 @@ import java.util.Optional;
 
 
 @NamedEntityGraph(name = "Member.all",attributeNodes = @NamedAttributeNode("team"))
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom, JpaSpecificationExecutor {
 
-    List<Member> findByUsernameAndAgeGreaterThan(String username,int age);
+    List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
 
     List<Member> findHelloBy();
 
@@ -41,7 +41,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     List<Member> findByNames(@Param("names") Collection<String> names);
 
     List<Member> findListByUsername(String user뼈ame); // 컬렉션
+
     Member findMemberByUsername(String username); // 단건
+
     Optional<Member> findOptionalByUsername(String username); //옵셔널
 
 
@@ -69,9 +71,11 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 //    @EntityGraph("Member.all")
     List<Member> findEntityGraphByUsername(@Param("username") String username);
 
-    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly", value="true"))
+    @QueryHints(value = @QueryHint(name = "org.hibernate.readOnly", value = "true"))
     Member findReadOnlyByUsername(String username);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Member> findLockByUsername(String username);
+
+    <T> List<T> findProjectionsByUsername(@Param("username") String username, Class<T> type);
 }
